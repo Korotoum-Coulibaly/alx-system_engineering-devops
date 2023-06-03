@@ -2,4 +2,4 @@
 #run apache on the container and to return a page containing Hello Holbert
 
 echo "ServerName localhost" >> /etc/apache2.conf
-service apache start
+service apache2 start
