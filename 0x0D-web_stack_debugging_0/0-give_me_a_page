@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#run apache on the container and to return a page containing Hello Holbert
+
+service apache start
