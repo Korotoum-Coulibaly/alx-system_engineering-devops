@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#Configure your domain zone so that the subdomain www points to rour load-balancer IPLet's also add other subdomains to make our life easier, and write a Bash script that will display information about subdomains
+#Configures your domain zone so that the subdomain www points to rour load-balancer IPLet's also add other subdomains to make our life easier, and write a Bash script that will display information about subdomains
 
 domain_information(){
     line=$(dig "$2"."$1" | grep -A1 'ANSWER SECTION:' | tr '\t' '\n' | tail -2 | tr '\n' ' ')
