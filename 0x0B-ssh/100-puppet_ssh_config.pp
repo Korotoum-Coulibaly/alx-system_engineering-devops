@@ -1,6 +1,6 @@
 #puppet script
 file_line { 'Turn off passwd auth':
-  ensure => 'prsent',
+  ensure => 'present',
   path   => '/etc/ssh/ssh_config',
   line   => 'passwordAuthentication no'
 }
