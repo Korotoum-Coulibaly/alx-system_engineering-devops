@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 #run apache on the container and to return a page containing Hello Holbert
 
+echo "ServerName localhost" >> /etc/apache2.conf
 service apache start
