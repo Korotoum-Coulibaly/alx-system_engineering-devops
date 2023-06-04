@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Python script that, using Rest API, for a given employee ID, returns information """
+"""Python script that, using Rest API, for a given employee ID"""
 import requests
 import sys
 
@@ -26,3 +26,4 @@ if __name__ == "__main__":
     print(sentence.format(user.get("name"), completed, total))
     for task in completed_tasks:
         print("\t {}".format(task))
+
