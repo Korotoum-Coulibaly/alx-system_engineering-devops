@@ -3,20 +3,18 @@
 
 import csv
 import requests
-import sys
+from sys import argv
 
-if __name__ == "__main__":
-    id = sys.argv[1]
-    usr_url = "https://jsonplaceholder.typicode.com/users/{}".format(id)
-    url = "https://jsonplaceholder.typicode.com/users/{}/todos".format(id)
-
-    u = requests.get(usr_url).json()
-    infos = requests.get(url).json()
-
-    with open('{}.csv'.format(id), 'w') as csv_file:
-        csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
-        for t in infos:
-            row = [id, u.get("username"), t.get("completed"), t.get("title")]
-            row = [str(value) for value in row]
-            csv_writer.writerow(row)
-            
+if __name__ == '__main__':
+    uid = argv[1]
+    url = "https://jsonplaceholder.typicode.com/users/{}".format(uid)
+    user = requests.get(url, verify=False).json()
+    url = "https://jsonplaceholder.typicode.com/todos?userId={}".format(
+        uid)
+    todo = requests.get(url, verify=False).json()
+    with open("{}.csv".format(uid), 'w', newline='') as csvfile:
+        taskwriter = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+        for t in todo:
+            taskwriter.writerow([int(uid), user.get('username'),
+                                 t.get('completed'),
+                                 t.get('title')])
