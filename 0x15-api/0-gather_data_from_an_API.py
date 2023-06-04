@@ -1,28 +1,26 @@
 #!/usr/bin/python3
 """Python script that, using Rest API, for a given employee ID"""
 import requests
-import sys
+from sys import argv
 
 if __name__ == "__main__":
-    _id = sys.argv[1]
-    usr_url = "https://jsonplaceholder.typicode.com/users/{}".format(_id)
-    todos_url = "https://jsonplaceholder.typicode.com/users/{}/todos".format(
-            _id)
-
-    user = requests.get(usr_url).json()
-    todos = requests.get(todos_url).json()
-
-    completed = 0
-    total = 0
-    completed_tasks = []
-
-    for task in todos:
-        total += 1
-        if task.get("completed") is True:
-            completed += 1
-            completed_tasks.append(task.get("title"))
-
-    sentence = "Employee {} is done with tasks({}/{}):"
-    print(sentence.format(user.get("name"), completed, total))
-    for task in completed_tasks:
-        print("\t {}".format(task))
+    if len(argv) > 1:
+        user = argv[1]
+        url = "https://jsonplaceholder.typicode.com/"
+        req = requests.get("{}users/{}".format(url, user))
+        name = req.json().get("name")
+        if name is not None:
+            jreq = requests.get(
+                "{}todos?userId={}".format(
+                    url, user)).json()
+            alltsk = len(jreq)
+            completedtsk = []
+            for t in jreq:
+                if t.get("completed") is True:
+                    completedtsk.append(t)
+            count = len(completedtsk)
+            print("Employee {} is done with tasks({}/{}):"
+                  .format(name, count, alltsk))
+            for title in completedtsk:
+                print("\t {}".format(title.get("title")))
+                
