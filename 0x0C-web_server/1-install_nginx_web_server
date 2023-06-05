@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#Install Nginx on serveur web 01
+
+#Update package lists and install Nginx
+sudo apt-get update
+sudo apt-get install -y nginx
+
+#Create a custom Nginx configuration
+sudo bash -c "cat > /etc/nginx/sites-available/hello_world" << EOL
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html
+    server_name _;
+    location / {
+	try_files \$uri \$uri/ =404;
+    }
+}
+EOL
+
+#new configuration
+sudo ln -sf /etc/nginx/sites-available/hello_world /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
+
+#hello world page
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
+
+#restart nginx
+sudo service nginx restart
