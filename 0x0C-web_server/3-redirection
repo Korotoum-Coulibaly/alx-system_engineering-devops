@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#Configure Nginx server so that redirection
+
+#update Nginx configuration
+sudo bash -c "cat > /etc/nginx/sites-available/redirection" << EOL
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html
+    server_name _;
+    location / {
+	try_files \$uri \$uri/ =404;
+    }
+    location /redirect_me {
+	return 301 https://www.example.com;
+    }
+}
+EOL
+
+#new configuration
+sudo ln -sf /etc/nginx/sites-available/redirection /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
+
+
+#restart nginx
+sudo service nginx restart
